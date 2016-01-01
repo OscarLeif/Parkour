@@ -6,227 +6,250 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
-Scene* PlayScene::createScene(){
-	
-	//´´½¨´øÓÐÎïÀíµÄScene
-	auto scene = Scene::createWithPhysics();
+Scene* PlayScene::createScene()
+{
 
-	//¿ªÆôµ÷ÊÔ,½«ÎïÀíÊÀ½çÃè»æ³öÀ´£¬Ê¹µÃÆä¿É¼û
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Scene
+    auto scene = Scene::createWithPhysics();
 
-	//Layer  ×¢ÒâÕâÀïÒªÓÃ auto £¬²»È»setPhysicsWorld²»¿ÉÒÔÓÃ
-	auto layer = PlayScene::create();
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½É¼ï¿½
+    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-	layer->setPhysicsWorld(scene->getPhysicsWorld());
+    //Layer  ×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ auto ï¿½ï¿½ï¿½ï¿½È»setPhysicsWorldï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    auto layer = PlayScene::create();
 
-	scene->addChild(layer);
+    layer->setPhysicsWorld(scene->getPhysicsWorld());
 
-	return scene;
+    scene->addChild(layer);
+
+    return scene;
 }
 
-bool PlayScene::init(){
-	if(!Layer::init()){
-		return false;
-	}
-	if(SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying() == false){
-		SimpleAudioEngine::getInstance()->playBackgroundMusic("background.mp3",true);
-	}
-	
-	initPhysicWorld();
+bool PlayScene::init()
+{
+    if(!Layer::init())
+    {
+        return false;
+    }
+    if(SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying() == false)
+    {
+        SimpleAudioEngine::getInstance()->playBackgroundMusic("background.mp3",true);
+    }
 
-	initBG();
+    initPhysicWorld();
 
-	//¿ªÆôupdate
-	this->scheduleUpdate();
+    initBG();
 
-	m_runner = Runner::create();
-	m_runner->setPosition(runner_posX,ground_hight+m_runner->getRunJumpSize().height/2);
-	m_runner->Run();
+    //ï¿½ï¿½ï¿½ï¿½update
+    this->scheduleUpdate();
 
-	this->addChild(m_runner);
+    m_runner = Runner::create();
+    m_runner->setPosition(runner_posX,ground_hight+m_runner->getRunJumpSize().height/2);
+    m_runner->Run();
 
-	createJumpButton();
+    this->addChild(m_runner);
 
-	createCrouchButton();
+    createJumpButton();
 
-	m_manager = BaseManager::create();
-	this->addChild(m_manager);
+    createCrouchButton();
 
-	return true;
+    m_manager = BaseManager::create();
+    this->addChild(m_manager);
+
+    return true;
 }
 
-void PlayScene::initPhysicWorld(){
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto origin = Director::getInstance()->getVisibleOrigin();
+void PlayScene::initPhysicWorld()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
 
-	//´´½¨Ò»¸öµØ°å±ß½ç µÄ¸ÕÌå
-	auto boundBody = PhysicsBody::createEdgeSegment(origin,
-		ccp(visibleSize.width,0),
-		PHYSICSBODY_MATERIAL_DEFAULT,1);
+    //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ø°ï¿½ß½ï¿½ ï¿½Ä¸ï¿½ï¿½ï¿½
+    auto boundBody = PhysicsBody::createEdgeSegment(origin,
+                     ccp(visibleSize.width,0),
+                     PHYSICSBODY_MATERIAL_DEFAULT,1);
 
-	//ÓÃÒ»¸öNode ¹ØÁªÎïÀí¸ÕÌå
-	auto boundNode = Node::create();
+    //ï¿½ï¿½Ò»ï¿½ï¿½Node ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    auto boundNode = Node::create();
 
-	boundNode->setPhysicsBody(boundBody);
+    boundNode->setPhysicsBody(boundBody);
 
-	boundNode->setPosition(0,ground_hight);
+    boundNode->setPosition(0,ground_hight);
 
-	this->addChild(boundNode);
+    this->addChild(boundNode);
 }
 
-void PlayScene::initBG(){
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	//±³¾°1
-	bgSprite1 = Sprite::create("Map00.png");
-	bgSprite1->setPosition(visibleSize.width/2,visibleSize.height/2);
-	this->addChild(bgSprite1);
+void PlayScene::initBG()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    //ï¿½ï¿½ï¿½ï¿½1
+    bgSprite1 = Sprite::create("Map00.png");
+    bgSprite1->setPosition(visibleSize.width/2,visibleSize.height/2);
+    this->addChild(bgSprite1);
 
-	//µØÃæ1
-	groundSprite1 = Sprite::create("Ground00.png");
-	groundSprite1->setPosition(visibleSize.width/2,groundSprite1->getContentSize().height/2);
-	this->addChild(groundSprite1);
+    //ï¿½ï¿½ï¿½ï¿½1
+    groundSprite1 = Sprite::create("Ground00.png");
+    groundSprite1->setPosition(visibleSize.width/2,groundSprite1->getContentSize().height/2);
+    this->addChild(groundSprite1);
 
-	//±³¾°2
-	bgSprite2 = Sprite::create("Map01.png");
-	bgSprite2->setPosition(bgSprite1->getContentSize().width+visibleSize.width/2,visibleSize.height/2);
-	this->addChild(bgSprite2);
-	
-	//µØÃæ2
-	groundSprite2 = Sprite::create("Ground01.png");
-	groundSprite2->setPosition(bgSprite1->getContentSize().width+visibleSize.width/2,groundSprite2->getContentSize().height/2);
-	this->addChild(groundSprite2);
+    //ï¿½ï¿½ï¿½ï¿½2
+    bgSprite2 = Sprite::create("Map01.png");
+    bgSprite2->setPosition(bgSprite1->getContentSize().width+visibleSize.width/2,visibleSize.height/2);
+    this->addChild(bgSprite2);
+
+    //ï¿½ï¿½ï¿½ï¿½2
+    groundSprite2 = Sprite::create("Ground01.png");
+    groundSprite2->setPosition(bgSprite1->getContentSize().width+visibleSize.width/2,groundSprite2->getContentSize().height/2);
+    this->addChild(groundSprite2);
 }
 
-void PlayScene::update(float dt){
-	int posX1 = bgSprite1->getPositionX();
-	int posX2 = bgSprite2->getPositionX();
+void PlayScene::update(float dt)
+{
+    int posX1 = bgSprite1->getPositionX();
+    int posX2 = bgSprite2->getPositionX();
 
-	posX1 -= map_speed;
-	posX2 -= map_speed;
+    posX1 -= map_speed;
+    posX2 -= map_speed;
 
-	auto mapSize = bgSprite1->getContentSize();
+    auto mapSize = bgSprite1->getContentSize();
 
-	if(posX1 < -mapSize.width/2){
-		posX1 = mapSize.width + mapSize.width/2;
-		posX2 = mapSize.width/2;
-	}
-	if(posX2 < -mapSize.width/2){
-		posX2 = mapSize.width + mapSize.width/2;
-		posX1 = mapSize.width/2;
-	}
+    if(posX1 < -mapSize.width/2)
+    {
+        posX1 = mapSize.width + mapSize.width/2;
+        posX2 = mapSize.width/2;
+    }
+    if(posX2 < -mapSize.width/2)
+    {
+        posX2 = mapSize.width + mapSize.width/2;
+        posX1 = mapSize.width/2;
+    }
 
-	bgSprite1->setPositionX(posX1);
-	bgSprite2->setPositionX(posX2);
-	groundSprite1->setPositionX(posX1);
-	groundSprite2->setPositionX(posX2);
+    bgSprite1->setPositionX(posX1);
+    bgSprite2->setPositionX(posX2);
+    groundSprite1->setPositionX(posX1);
+    groundSprite2->setPositionX(posX2);
 }
 
 
-void PlayScene::createJumpButton(){
-	auto visibleSize = Director::getInstance()->getVisibleSize();
+void PlayScene::createJumpButton()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
 
-	auto jumpLabel = Label::create("Jump","Arail",60);
-	auto norBtn = Scale9Sprite::create("norBtn.png");
-	auto lightBtn = Scale9Sprite::create("lightBtn.png");
+    auto jumpLabel = Label::create("Jump","Arail",60);
+    auto norBtn = Scale9Sprite::create("norBtn.png");
+    auto lightBtn = Scale9Sprite::create("lightBtn.png");
 
-	auto jumpBtn = ControlButton::create(jumpLabel,norBtn);
-	jumpBtn->setPosition(visibleSize.width-100,ground_hight+150);
-	jumpBtn->setBackgroundSpriteForState(lightBtn,Control::State::HIGH_LIGHTED);
+    auto jumpBtn = ControlButton::create(jumpLabel,norBtn);
+    jumpBtn->setPosition(visibleSize.width-100,ground_hight+150);
+    jumpBtn->setBackgroundSpriteForState(lightBtn,Control::State::HIGH_LIGHTED);
 
-	jumpBtn->addTargetWithActionForControlEvents(
-		this,
-		cccontrol_selector(PlayScene::jumpEvent),
-		Control::EventType::TOUCH_DOWN);
+    jumpBtn->addTargetWithActionForControlEvents(
+        this,
+        cccontrol_selector(PlayScene::jumpEvent),
+        Control::EventType::TOUCH_DOWN);
 
-	this->addChild(jumpBtn);
+    this->addChild(jumpBtn);
 }
-void PlayScene::jumpEvent(Ref* pSender,Control::EventType event){
-	m_runner->Jump();
-}
-
-void PlayScene::createCrouchButton(){
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	auto crouchLabel = Label::create("Crouch","Arail",60);
-	auto norBtn = Scale9Sprite::create("norBtn.png");
-	auto lightBtn = Scale9Sprite::create("lightBtn.png");
-
-	auto crouchBtn = ControlButton::create(crouchLabel,norBtn);
-	crouchBtn->setPosition(visibleSize.width-100,ground_hight+50);
-	crouchBtn->setBackgroundSpriteForState(lightBtn,Control::State::HIGH_LIGHTED);
-
-	//
-	crouchBtn->addTargetWithActionForControlEvents(
-		this,
-		cccontrol_selector(PlayScene::crouchDown),
-		Control::EventType::TOUCH_DOWN);
-	
-	//
-	crouchBtn->addTargetWithActionForControlEvents(
-		this,
-		cccontrol_selector(PlayScene::crouchUp),
-		Control::EventType::TOUCH_UP_INSIDE);
-
-	this->addChild(crouchBtn);	
-}
-void PlayScene::crouchDown(Ref* pSender,Control::EventType event){
-	//Ìí¼ÓÅÐ¶Ï
-	if(m_runner->getState() == running){
-		m_runner->Crouch();
-	}
-}
-void PlayScene::crouchUp(Ref* pSender,Control::EventType event){
-	//·ñÔò£¬ÔÚÌøÆðÀ´µÄÊ±ºò£¬µã»÷crouch ËÉ¿ªÖ®ºó£¬×´Ì¬¾Í»á±ä³Érunning
-	if(m_runner->getState() == crouch){
-		m_runner->stopAllActions();
-		m_runner->Run();
-	}
+void PlayScene::jumpEvent(Ref* pSender,Control::EventType event)
+{
+    m_runner->Jump();
 }
 
-void PlayScene::onEnter(){
-	Layer::onEnter();
-	auto contactListenner = EventListenerPhysicsContact::create();
+void PlayScene::createCrouchButton()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
 
-	//CC_CALLBACK±íÊ¾»Øµ÷º¯ÊýµÄ²ÎÊý¸öÊý
-	contactListenner->onContactBegin = CC_CALLBACK_1(PlayScene::onContactBegin,this);
+    auto crouchLabel = Label::create("Crouch","Arail",60);
+    auto norBtn = Scale9Sprite::create("norBtn.png");
+    auto lightBtn = Scale9Sprite::create("lightBtn.png");
 
-	//dispatcher = Director::getInstance()->getEventDispatcher();
-	//_eventDispatcherÓ¦¸ÃÊÇÒ»¸öÊ±¼äÅÉ·¢µÄÈ«¾Ö±äÁ¿¡£¡£È«²¿¸øËü¹ÜÀí¾ÍÊÇµÄ
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListenner,this);
+    auto crouchBtn = ControlButton::create(crouchLabel,norBtn);
+    crouchBtn->setPosition(visibleSize.width-100,ground_hight+50);
+    crouchBtn->setBackgroundSpriteForState(lightBtn,Control::State::HIGH_LIGHTED);
+
+    //
+    crouchBtn->addTargetWithActionForControlEvents(
+        this,
+        cccontrol_selector(PlayScene::crouchDown),
+        Control::EventType::TOUCH_DOWN);
+
+    //
+    crouchBtn->addTargetWithActionForControlEvents(
+        this,
+        cccontrol_selector(PlayScene::crouchUp),
+        Control::EventType::TOUCH_UP_INSIDE);
+
+    this->addChild(crouchBtn);
 }
-void PlayScene::onExit(){
-	Layer::onExit();
-	//È¡ÏûÊÂ¼þÅÉ·¢»úÖÆ
-	//dispatcher->removeAllEventListeners();
-	_eventDispatcher->removeEventListenersForTarget(this);
+void PlayScene::crouchDown(Ref* pSender,Control::EventType event)
+{
+    //ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+    if(m_runner->getState() == running)
+    {
+        m_runner->Crouch();
+    }
 }
-bool PlayScene::onContactBegin(PhysicsContact& contact){
-	auto body_1 = (Sprite*)contact.getShapeA()->getBody()->getNode();
-	auto body_2 = (Sprite*)contact.getShapeB()->getBody()->getNode();
-	
-	CCLOG("ssssss");
-
-	//if(body_1->getTag() == 5 || body_2->getTag() == 5) return true;
-
-	//ÕâÀï±íÊ¾ÊÇÒªÈËÎïºÍÑÒÊ¯Ïà×²
-	if((body_1->getTag() == 3 && body_2->getTag() == 1) ||
-		(body_1->getTag() == 1 && body_2->getTag() == 3) ){
-			GameOver();
-	}
-
-	if(body_1->getTag() == 2){
-		body_1->setVisible(false);
-	}
-	if(body_2->getTag() == 2){
-		body_2->setVisible(false);
-	}
-
-	return false;
+void PlayScene::crouchUp(Ref* pSender,Control::EventType event)
+{
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ò£¬µï¿½ï¿½crouch ï¿½É¿ï¿½Ö®ï¿½ï¿½×´Ì¬ï¿½Í»ï¿½ï¿½ï¿½running
+    if(m_runner->getState() == crouch)
+    {
+        m_runner->stopAllActions();
+        m_runner->Run();
+    }
 }
 
-void PlayScene::GameOver(){
-	SimpleAudioEngine::end();
-	Director::getInstance()->replaceScene(GameOver::scene());
+void PlayScene::onEnter()
+{
+    Layer::onEnter();
+    auto contactListenner = EventListenerPhysicsContact::create();
+
+    //CC_CALLBACKï¿½ï¿½Ê¾ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    contactListenner->onContactBegin = CC_CALLBACK_1(PlayScene::onContactBegin,this);
+
+    //dispatcher = Director::getInstance()->getEventDispatcher();
+    //_eventDispatcherÓ¦ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ê±ï¿½ï¿½ï¿½É·ï¿½ï¿½ï¿½È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListenner,this);
+}
+void PlayScene::onExit()
+{
+    Layer::onExit();
+    //È¡ï¿½ï¿½ï¿½Â¼ï¿½ï¿½É·ï¿½ï¿½ï¿½ï¿½ï¿½
+    //dispatcher->removeAllEventListeners();
+    _eventDispatcher->removeEventListenersForTarget(this);
+}
+bool PlayScene::onContactBegin(PhysicsContact& contact)
+{
+    auto body_1 = (Sprite*)contact.getShapeA()->getBody()->getNode();
+    auto body_2 = (Sprite*)contact.getShapeB()->getBody()->getNode();
+
+    CCLOG("ssssss");
+
+    //if(body_1->getTag() == 5 || body_2->getTag() == 5) return true;
+
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¯ï¿½ï¿½×²
+    if((body_1->getTag() == 3 && body_2->getTag() == 1) ||
+            (body_1->getTag() == 1 && body_2->getTag() == 3) )
+    {
+        GameOver();
+    }
+
+    if(body_1->getTag() == 2)
+    {
+        body_1->setVisible(false);
+    }
+    if(body_2->getTag() == 2)
+    {
+        body_2->setVisible(false);
+    }
+
+    return false;
+}
+
+void PlayScene::GameOver()
+{
+    SimpleAudioEngine::end();
+    Director::getInstance()->replaceScene(GameOver::scene());
 }
 
 

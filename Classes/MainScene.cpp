@@ -61,7 +61,7 @@ void MainScene::preLoadMusic(){
 }
 
 void MainScene::start(){
-	CCLOG("game is start !");
+	///CCLOG("game is start !");
 	Scene* playScene = TransitionFade::create(1,PlayScene::createScene());
 	Director::getInstance()->replaceScene(playScene);
 }

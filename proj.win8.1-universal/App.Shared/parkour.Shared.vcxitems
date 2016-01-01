@@ -17,7 +17,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\Base.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\BaseManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\Coin.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\GameOver.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\MainScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\PlayScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\Rock.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\Runner.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClCompile>
@@ -27,7 +35,16 @@
       <DependentUpon>$(MSBuildThisFileDirectory)OpenGLESPage.xaml</DependentUpon>
     </ClCompile>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\AppDelegate.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\Base.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\BaseManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\Coin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\GameOver.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\MainScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\PlayScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\Rock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\Runner.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\Size.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)App.xaml.h">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClInclude>

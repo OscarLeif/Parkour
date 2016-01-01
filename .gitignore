@@ -150,8 +150,13 @@ tests/cpp-tests/Resources/audio
 /*/*/*/prebuilt-mk/Android.mk
 /*/*/*/*/prebuilt-mk/Android.mk
 
+#Track files assets for windows universal projects desktop
+!proj.win8.1-universal/app.windowsphone/
 
+proj.win8.1-universal/app.windowsphone/*
+!proj.win8.1-universal/app.windowsphone/assets/
 
-#track files .obj in the resource folder because that are 3D files
-*.obj
-!Resources/*.obj
+!proj.win8.1-universal/app.windows/
+
+proj.win8.1-universal/app.windows/*
+!proj.win8.1-universal/app.windows/assets/
